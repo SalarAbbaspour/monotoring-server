@@ -4,17 +4,15 @@ const cors = require('cors')
 const app = express();
 const bodyParser = require("body-parser");
 const router = express.Router();
+var Ably = require('ably');
 app.use("/",router);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-const sqlite3 = require('sqlite3').verbose();
-let db = new sqlite3.Database('./db/chinook.db', (err) => {
-    if (err) {
-      console.error(err.message);
-    }
-    console.log('Connected to the chinook database.');
-  });
 
+  var ably = new require('ably').Realtime('CltMUg.CCbWVw:kpFlHbCfE3EdZUKGrqsBxPqxfgXV8quTx7yhzpkis0s');
+  var channel = ably.channels.get('test');
+  
+  // Publish a message to the test channel
 
 app.use(cors())
 
@@ -41,22 +39,11 @@ return obj
 app.get('/api/getList', (req,res) => {
     res.json(initialData());
 });
-app.get('/api/getnum', (req,res) => {
-    let sql = `SELECT num FROM value`;
-    db.all(sql, [], (err, rows) => {
-        res.json({num:rows[rows.length-1].num});
-    });
-});
-
 app.post('/api/value', (req,res) => {
     const {value} = req.body
-    db.run(`INSERT INTO value(num) VALUES(?)`, [req.body.value], function(err) {
-        if (err) {
-          return res.json({message: 'error'});
-        }
-        // get the last insert id
-        res.json({message: 'success'});
-      });
+    channel.publish('greeting', `${value}`);
+    res.json({message:'success'})
+
 });
 
 // Handles any requests that don't match the ones above
