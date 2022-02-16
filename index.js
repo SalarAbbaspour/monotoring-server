@@ -12,9 +12,9 @@ app.use(cors())
 const Pusher = require("pusher");
 
 const pusher = new Pusher({
-  appId: "1048777",
-  key: "ebbfc5d80c211fb6817b",
-  secret: "8aa15a887c87c474efc8",
+  appId: "1348621",
+  key: "ac3fe16cdb223e8769b4",
+  secret: "deaa3efa8d0f17b6886f",
   cluster: "eu",
   useTLS: true,
 });
