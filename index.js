@@ -25,7 +25,7 @@ app.use(express.static(path.join(__dirname, 'client/build')));
       return timestamp  
     }
     for(let i=0;i<8640;i++){
-        obj.data.push({Bitrate:6, time:timeGenerator(i)});
+        obj.data.push({Bitrate:4, time:timeGenerator(i)});
     }
 return obj
 };
